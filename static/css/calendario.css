@@ -1,0 +1,127 @@
+/* calendario.css */
+:root {
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --accent: #ef476f;
+  --accent-2: #2196f3;
+  --shadow: 0 6px 18px rgba(20,20,40,0.08);
+  --radius: 12px;
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: #111827;
+  min-height: 100vh;
+}
+
+h1 {
+  text-align: center;
+  margin: 30px 0 10px;
+  font-size: 28px;
+}
+
+p {
+  text-align: center;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px 40px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.day {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 14px 16px;
+  transition: transform 0.1s ease;
+}
+.day:hover {
+  transform: translateY(-2px);
+}
+
+.day h3 {
+  margin: 0 0 10px 0;
+  color: var(--accent);
+  font-size: 18px;
+}
+
+.badge {
+  display: block;
+  background: rgba(33,150,243,0.1);
+  color: #0b5394;
+  border-radius: 8px;
+  padding: 6px 8px;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.badge em {
+  font-style: italic;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.free {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.full {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.day a {
+  text-decoration: none;
+  color: white;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: inline-block;
+  font-size: 14px;
+  margin-top: 6px;
+  transition: transform 0.1s ease;
+}
+
+.day a:hover {
+  transform: translateY(-2px);
+}
+
+.back {
+  text-align: center;
+  margin-top: 30px;
+}
+.back a {
+  text-decoration: none;
+  color: var(--accent-2);
+  font-weight: 600;
+}
+
+.links {
+  text-align: center;
+  margin: 10px 0;
+}
+.links a {
+  text-decoration: none;
+  color: var(--accent);
+  font-weight: 600;
+  margin: 0 4px;
+}
+.links a:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div style="max-width:600px; margin:auto; padding:20px;">
+  <h1 style="text-align:center;">{% if object %}Editar producto{% else %}Agregar producto{% endif %}</h1>
+
+  <form method="post" enctype="multipart/form-data" style="display:flex; flex-direction:column; gap:15px;">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" style="background-color:#4CAF50; color:white; border:none; padding:10px; border-radius:5px;">
+      Guardar
+    </button>
+  </form>
+
+  <div style="text-align:center; margin-top:15px;">
+    <a href="{% url 'catalog:lista' %}" style="color:#2196F3;">Cancelar y volver</a>
+  </div>
+</div>
+{% endblock %}
