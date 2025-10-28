@@ -1,0 +1,52 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Reservas | Happy Huapi</title>
+  <link rel="stylesheet" href="{% static 'css/reservas.css' %}">
+</head>
+<body>
+  <header class="header">
+    <h1>Reservas guardadas</h1>
+    <a href="{% url 'dashboard' %}">← Volver al Dashboard</a>
+  </header>
+
+  <main class="container">
+    {% if reservas %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Cliente</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for b in reservas %}
+          <tr>
+            <td>
+              <a href="{% url 'booking_detail' b.id %}" style="text-decoration:none; color:inherit;">
+                {{ b.event_date }}
+              </a>
+            </td>
+            <td>{{ b.start_time }}–{{ b.end_time }}</td>
+            <td>{{ b.customer_name }}</td>
+            <td>
+              <span class="status {{ b.status }}">
+                {{ b.get_status_display }}
+              </span>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="empty">
+        <p>No hay reservas registradas.</p>
+      </div>
+    {% endif %}
+  </main>
+</body>
+</html>

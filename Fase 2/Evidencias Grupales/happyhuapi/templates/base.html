@@ -1,0 +1,25 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}Happy Huapi{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/catalog.css' %}">
+</head>
+<body>
+  <header style="text-align:center; padding:10px; background:#fff; border-bottom:1px solid #ddd;">
+    <h1><a href="/">🍭 Happy Huapi</a></h1>
+  </header>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer style="text-align:center; margin-top:20px; padding:10px; color:#888;">
+    <p>© 2025 Happy Huapi</p>
+  </footer>
+<link rel="stylesheet" href="{% static 'css/catalog.css' %}">
+
+</body>
+</html>

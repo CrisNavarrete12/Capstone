@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Huapi · Candy Bar & Decoración</title>
+    {% load static %}
+    <link href="{% static 'css/estilos.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-color navbar-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#opciones">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="opciones">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'Inicio' %}">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'Catalogo' %}">Catálogo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'Reservar' %}">Crear reserva</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <br><br>
+    
+    <main role="main" class="container">
+        <div class="container-fluid"><!-- Carrusel -->
+            <div id="carousel1" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carousel1" data-slide-to="0" class="active"></li>
+                    <li data-target="#carousel1" data-slide-to="1"></li>
+                    <li data-target="#carousel1" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner" style="border-radius: 60px;">
+                    <div class="carousel-item active">
+                        <img class="d-block w-100" src="{% static 'images/images.jpg' %}" alt="">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="{% static 'images/mesa-dulce-novios-blanca.jpeg' %}" alt="">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carousel1" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carousel1" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">next</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <br><br><br>
+    <footer>
+        <div class="row col-12">
+            <div class="col-lg-1">
+                <a href="{% url 'Inicio' %}" id="linkFooter"><strong>INICIO</strong></a>
+            </div>
+            <div class="col-lg-1">
+                <a href="{% url 'Catalogo' %}" id="linkFooter"><strong>Organización</strong></a>
+            </div>
+            <div class="col-lg-2">
+                <a href="{% url 'Reservas' %}" id="linkFooter"><strong>Reservas</strong></a>
+            </div>
+            <div class="col-lg-2">
+                <strong>Síguenos en :</strong>
+                <br><br>
+                <div class="row">
+                    <img src="{% static 'images/Facebook.png' %}" alt="" width="30px" height="30px" style="margin-left: 15px;">
+                </div>
+                <br><br><br>
+                <p>&copy; @copyright Derechos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+</html>
