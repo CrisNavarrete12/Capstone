@@ -1,33 +1,29 @@
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Login | Happy Huapi</title>
+{% extends "base.html" %}
+{% load static %}
 
-  {% load static %}
-  <link rel="stylesheet" href="{% static 'css/login.css' %}">
-</head>
-<body>
-  <h1>Iniciar sesión</h1>
+{% block content %}
+<style>
+    body {
+        background: url("{% static 'images/fondoiniciar.jpg' %}") center/cover no-repeat fixed !important;
+    }
+</style>
 
-  {% if form.non_field_errors %}
-    <p class="error">{{ form.non_field_errors }}</p>
-  {% endif %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    
+    <div class="bg-white p-4 rounded shadow" style="width: 350px; opacity: 0.95;">
+        <h2 class="text-center mb-3">Iniciar sesión</h2>
 
-  <form method="post">
-    {% csrf_token %}
-    <p>
-      <label for="{{ form.username.id_for_label }}">Usuario:</label>
-      {{ form.username }}
-    </p>
-    <p>
-      <label for="{{ form.password.id_for_label }}">Contraseña:</label>
-      {{ form.password }}
-    </p>
-    <button type="submit">Entrar</button>
-  </form>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-primary w-100" type="submit">Ingresar</button>
+        </form>
 
-  <p><a href="{% url 'Inicio' %}">Volver al inicio</a></p>
-</body>
-</html>
+        <p class="text-center mt-3">
+            ¿No tienes cuenta?
+            <a href="{% url 'registro' %}" class="fw-bold">Regístrate aquí</a>
+        </p>
+    </div>
+
+</div>
+{% endblock %}

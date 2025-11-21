@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    body {
+        background: url("{% static 'images/fondoiniciar.jpg' %}") center/cover no-repeat fixed !important;
+    }
+</style>
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    
+    <div class="bg-white p-4 rounded shadow" style="width: 380px; opacity: 0.95;">
+        <h2 class="text-center mb-3">Crear cuenta</h2>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label>Nombre de usuario</label>
+                {{ form.username }}
+            </div>
+
+            <div class="mb-3">
+                <label>Correo electrónico</label>
+                {{ form.email }}
+            </div>
+
+            <div class="mb-3">
+                <label>Contraseña</label>
+                {{ form.password1 }}
+            </div>
+
+            <div class="mb-3">
+                <label>Confirmar contraseña</label>
+                {{ form.password2 }}
+            </div>
+
+            <button class="btn btn-primary w-100 mt-2">Registrarse</button>
+        </form>
+
+        <p class="text-center mt-3">
+            ¿Ya tienes una cuenta?
+            <a href="{% url 'login' %}" class="fw-bold">Inicia sesión</a>
+        </p>
+    </div>
+
+</div>
+{% endblock %}

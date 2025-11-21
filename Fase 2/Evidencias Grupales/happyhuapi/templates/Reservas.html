@@ -1,52 +1,113 @@
+{% extends "base.html" %}
 {% load static %}
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8">
-  <title>Reservas | Happy Huapi</title>
-  <link rel="stylesheet" href="{% static 'css/reservas.css' %}">
-</head>
-<body>
-  <header class="header">
-    <h1>Reservas guardadas</h1>
-    <a href="{% url 'dashboard' %}">← Volver al Dashboard</a>
-  </header>
 
-  <main class="container">
-    {% if reservas %}
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>Cliente</th>
-            <th>Estado</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for b in reservas %}
-          <tr>
-            <td>
-              <a href="{% url 'booking_detail' b.id %}" style="text-decoration:none; color:inherit;">
-                {{ b.event_date }}
-              </a>
-            </td>
-            <td>{{ b.start_time }}–{{ b.end_time }}</td>
-            <td>{{ b.customer_name }}</td>
-            <td>
-              <span class="status {{ b.status }}">
-                {{ b.get_status_display }}
-              </span>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    {% else %}
-      <div class="empty">
-        <p>No hay reservas registradas.</p>
+{% block content %}
+
+<h2 class="text-center mt-4">Reservas guardadas</h2>
+
+<div class="container mt-4">
+
+  <!-- BOTÓN SOLO PARA ADMIN -->
+  {% if user.is_staff or user.is_superuser %}
+    <a class="btn btn-success mb-3" href="{% url 'exportar_reservas' %}">
+        Exportar reservas a Excel
+    </a>
+  {% endif %}
+
+  <table class="table table-hover table-bordered text-center">
+    <thead class="table-dark">
+      <tr>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Cliente</th>
+        <th>Lugar</th> <!-- NUEVO -->
+        <th>Total</th>
+        <th>Productos</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {% for b in reservas %}
+      <tr>
+        <td>{{ b.event_date }}</td>
+        <td>{{ b.start_time }} – {{ b.end_time }}</td>
+        <td>{{ b.customer_name }}</td>
+        <td>{{ b.location|default:"-" }}</td> <!-- NUEVO -->
+        <td>${{ b.total|floatformat:0 }} CLP</td>
+
+        <td>
+          <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{ b.pk }}">
+            Ver productos 
+          </button>
+        </td>
+
+        <!-- COLUMNA DE ESTADO CON SELECT PARA ADMIN -->
+        <td>
+          {% if user.is_staff or user.is_superuser %}
+            <form method="POST" action="{% url 'actualizar_estado' b.pk %}">
+              {% csrf_token %}
+              <select name="estado" class="form-select form-select-sm" onchange="this.form.submit()">
+                {% for value, label in b.STATUS_CHOICES %}
+                  <option value="{{ value }}" {% if b.status == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+            </form>
+          {% else %}
+            {% if b.status == "pending" %}
+              <span class="badge bg-warning text-dark">Pendiente</span>
+            {% elif b.status == "approved" %}
+              <span class="badge bg-success">Aprobada</span>
+            {% elif b.status == "done" %}
+              <span class="badge bg-info text-dark">Realizada</span>
+            {% else %}
+              <span class="badge bg-danger">Cancelada</span>
+            {% endif %}
+          {% endif %}
+        </td>
+      </tr>
+
+      <!-- MODAL DE PRODUCTOS -->
+      <div class="modal fade" id="modal{{ b.pk }}" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <div class="modal-header bg-primary text-white">
+              <h5 class="modal-title">Productos de {{ b.customer_name }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+              {% for p in b.products.all %}
+                <p>• {{ p.name }} - ${{ p.price_clp }}</p>
+              {% empty %}
+                <p class="text-muted">No hay productos en esta reserva.</p>
+              {% endfor %}
+            </div>
+
+            <div class="modal-footer">
+              <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+
+          </div>
+        </div>
       </div>
-    {% endif %}
-  </main>
-</body>
-</html>
+
+      {% empty %}
+      <tr>
+        <td colspan="7" class="text-center text-muted">No hay reservas guardadas.</td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+  </table>
+
+  {% if user.is_staff or user.is_superuser %}
+    <a href="{% url 'dashboard' %}" class="btn btn-primary mt-3">← Volver al Dashboard</a>
+  {% else %}
+    <a href="{% url 'Inicio' %}" class="btn btn-secondary mt-3">← Volver al Inicio</a>
+  {% endif %}
+
+</div>
+
+{% endblock %}

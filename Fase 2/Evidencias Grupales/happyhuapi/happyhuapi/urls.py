@@ -1,53 +1,42 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-from django.shortcuts import redirect
-from .forms import AdminOnlyAuthForm
-from .views import Inicio, Catalogo, Formulario, dashboard
-from . import views 
+from happyhuapi import views
+from catalog import views as catalog_views
 
 urlpatterns = [
-    # Admin Django
+    # ADMIN
     path('admin/', admin.site.urls),
-    path('catalog/', include('catalog.urls')),
-    
-    
-    
 
-    # Rutas publicas
-    path('', Inicio, name="Inicio"),
-    path('Catalogo/', Catalogo, name="Catalogo"),
-    
-    # Calendario + Reservar (publicos)
-    path('Calendario/', views.Calendario, name="Calendario"),
-    path('Reservar/', views.Reservar, name="Reservar"),
-    # Añade de vuelta (si quitaste esta linea):
-    path('Formulario/', Formulario, name="Formulario"),
+    # 🛠️ Edición de reservas (solo admin)
+    path("booking/<int:pk>/editar/", views.editar_reserva, name="editar_reserva"),
 
+    # 🌐 PÁGINAS PRINCIPALES
+    path('', views.Inicio, name='Inicio'),
+    path('Catalogo/', views.Catalogo, name='Catalogo'),
+    path('Reservar/', views.Reservar, name='Reservar'),
+    path('Reservas/', views.Reservas, name='Reservas'),
+    path('dashboard/', views.dashboard, name='dashboard'),
 
-    # NUEVO: Listado de reservas (todas guardadas en la BD)
-    path('Reservas/', views.Reservas, name="Reservas"),
+    # 🔐 LOGIN / LOGOUT
+    path('login/', auth_views.LoginView.as_view(template_name='auth/login.html'), name='login'),
+    path('logout/', views.logout_view, name='logout'),
 
-    # Detalle de reserva (para "Ver en el sitio" del admin)
-    path('reserva/<int:pk>/', views.booking_detail, name="booking_detail"),
+    # 👤 REGISTRO
+    path('registro/', views.registro, name='registro'),
 
-    # Login / Logout solo administradores
-    path(
-        'login/',
-        auth_views.LoginView.as_view(
-            template_name="auth/login.html",
-            authentication_form=AdminOnlyAuthForm,
-        ),
-        name="login",
-    ),
-     path('logout/', views.logout_view, name='logout'),
+    # 🛍️ CATALOGO (namespace catalog)
+    path('catalog/', include(('catalog.urls', 'catalog'), namespace='catalog')),
 
-    # Panel interno (solo admin)
-    path('dashboard/', dashboard, name="dashboard"),
+    # 📊 EXPORTAR RESERVAS
+    path('exportar_reservas/', views.exportar_reservas, name='exportar_reservas'),
 
-    
+    # 🔄 ACTUALIZAR ESTADO (solo admin)
+    path('reservas/<int:pk>/estado/', views.actualizar_estado, name='actualizar_estado'),
 ]
+
+from django.conf import settings
+from django.conf.urls.static import static
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

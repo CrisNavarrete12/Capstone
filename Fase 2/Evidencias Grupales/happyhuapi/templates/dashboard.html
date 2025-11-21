@@ -28,7 +28,6 @@
           <div class="label">Usuarios</div>
           <div class="kpi">{{ total_usuarios|default:"—" }}</div>
         </div>
-        <div>👥</div>
       </div>
 
       <div class="card">
@@ -36,7 +35,6 @@
           <div class="label">Reservas hoy</div>
           <div class="kpi">{{ reservas_hoy|default:"—" }}</div>
         </div>
-        <div>📅</div>
       </div>
 
       <div class="card">
@@ -44,12 +42,11 @@
           <div class="label">Ventas</div>
           <div class="kpi">${{ ventas_totales|default:"—" }}</div>
         </div>
-        <div>💸</div>
       </div>
     </section>
 
     <nav class="nav">
-      <a class="btn" href="{% url 'Catalogo' %}">Ver Catálogo</a>
+      <a class="btn" href="{% url 'catalog:lista' %}">Ver Catálogo</a>
       <a class="btn" href="{% url 'Reservas' %}">Ver Reservas</a>
       <a class="btn primary" href="{% url 'admin:index' %}">Ir al Admin</a>
     </nav>

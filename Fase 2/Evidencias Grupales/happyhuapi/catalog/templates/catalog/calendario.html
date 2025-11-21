@@ -1,0 +1,267 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Calendario de Reservas{% endblock %}
+
+{% block content %}
+<style>
+body {
+    background-color: #f8f9fa;
+}
+
+#calendar-container {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 18px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+    margin-bottom: 60px;
+}
+
+h2 {
+    font-weight: 700;
+    color: #343a40;
+    margin-bottom: 1.5rem;
+}
+
+.badge {
+    font-size: 0.9rem;
+    padding: 0.6em 1em;
+    border-radius: 12px;
+}
+
+.fc-button {
+    background-color: #495057 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 6px !important;
+    font-weight: 500 !important;
+}
+.fc-button:hover {
+    background-color: #212529 !important;
+}
+.fc-toolbar-title {
+    font-size: 1.3rem !important;
+    font-weight: bold !important;
+    color: #212529 !important;
+}
+
+.fc-daygrid-day, .fc-timegrid-slot {
+    background-color: #ffffff !important;
+    transition: background-color 0.2s ease-in-out;
+}
+.fc-daygrid-day:hover, .fc-timegrid-slot:hover {
+    background-color: #f1f3f5 !important;
+}
+
+/* Eventos visibles y con color */
+.fc-event, a.fc-event {
+    color: #212529 !important;
+    text-decoration: none !important;
+    border: none !important;
+    font-weight: 600 !important;
+    border-radius: 6px !important;
+    padding: 2px 6px !important;
+}
+
+/* Colores según estado */
+.fc-event-pending { background-color: #ffe066 !important; }
+.fc-event-approved { background-color: #a9e34b !important; }
+.fc-event-cancelled { background-color: #ff8787 !important; }
+.fc-event-done { background-color: #74c0fc !important; }
+
+#calendar-container .fc a { text-decoration: none !important; color: inherit !important; }
+#calendar-container a.fc-daygrid-day-number { color: #212529 !important; text-decoration: none !important; cursor: default; }
+#calendar-container .fc-col-header-cell-cushion { color: #495057 !important; font-weight: 600; text-decoration: none !important; }
+#calendar-container .fc-list-day-text { color: #212529 !important; text-decoration: none !important; }
+
+.fc-scrollgrid { border-color: #dee2e6 !important; }
+
+/* Tooltip */
+.tooltip-custom {
+    position: absolute;
+    background: rgba(33, 37, 41, 0.9);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    pointer-events: none;
+    z-index: 9999;
+    display: none;
+}
+
+/* Modal */
+.modal-content {
+    border-radius: 12px;
+}
+.modal-header {
+    background-color: #343a40;
+    color: white;
+}
+.modal-body p {
+    margin: 0.3rem 0;
+}
+.modal-footer {
+    justify-content: space-between;
+}
+</style>
+
+<div class="container" id="calendar-container">
+    <h2 class="text-center mb-4">🗓️ Calendario de Reservas</h2>
+
+    <div class="d-flex justify-content-center mb-4 flex-wrap gap-3">
+        <span class="badge bg-warning text-dark">Pendiente</span>
+        <span class="badge bg-success">Aprobada</span>
+        <span class="badge bg-danger">Cancelada</span>
+        <span class="badge bg-primary">Realizada</span>
+    </div>
+
+    <div id="calendar"></div>
+    <div id="tooltip" class="tooltip-custom"></div>
+</div>
+
+<!-- Modal Detalle Reserva -->
+<div class="modal fade" id="reservaModal" tabindex="-1" aria-labelledby="reservaModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reservaModalLabel">Detalles de la Reserva</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Cliente:</strong> <span id="modalCliente"></span></p>
+        <p><strong>Email:</strong> <span id="modalEmail"></span></p>
+        <p><strong>Teléfono:</strong> <span id="modalTelefono"></span></p>
+        <p><strong>Fecha:</strong> <span id="modalFecha"></span></p>
+        <p><strong>Horario:</strong> <span id="modalHorario"></span></p>
+        <p><strong>Ubicación:</strong> <span id="modalLugar"></span></p>
+        <p><strong>Estado:</strong> <span id="modalEstado"></span></p>
+        <p><strong>Notas:</strong> <span id="modalNotas"></span></p>
+        <hr>
+        <p><strong>Productos Asociados:</strong></p>
+        <ul id="modalProductos" class="list-unstyled mb-0"></ul>
+      </div>
+      <div class="modal-footer">
+        {% if user.is_staff %}
+        <a id="modalEditar" class="btn btn-outline-primary">✏️ Editar Reserva</a>
+        {% endif %}
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FullCalendar y Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tooltip = document.getElementById('tooltip');
+    const calendarEl = document.getElementById('calendar');
+
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        locale: 'es',
+        initialView: 'timeGridWeek',
+        height: 'auto',
+        expandRows: true,
+        slotMinTime: '08:00:00',
+        slotMaxTime: '20:00:00',
+        nowIndicator: true,
+        allDaySlot: false,
+        firstDay: 1,
+
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,listWeek'
+        },
+        buttonText: {
+            today: 'Hoy',
+            month: 'Mes',
+            week: 'Semana',
+            list: 'Lista'
+        },
+        events: {
+            url: '{% url "catalog:reservas_json" %}',
+            method: 'GET',
+        },
+
+        eventDidMount: function(info) {
+            const title = info.event.title;
+            if (title.includes("Pendiente")) info.el.classList.add("fc-event-pending");
+            else if (title.includes("Aprobada")) info.el.classList.add("fc-event-approved");
+            else if (title.includes("Cancelada")) info.el.classList.add("fc-event-cancelled");
+            else if (title.includes("Realizada")) info.el.classList.add("fc-event-done");
+
+            // Tooltip con formato 24h
+            info.el.addEventListener('mouseenter', function() {
+                const inicio = info.event.start.toLocaleString('es-CL', {
+                    dateStyle: 'short',
+                    timeStyle: 'short',
+                    hour12: false
+                });
+                const fin = info.event.end
+                    ? info.event.end.toLocaleTimeString('es-CL', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: false
+                      })
+                    : '';
+                tooltip.innerHTML = `<strong>${info.event.title}</strong><br>${inicio} - ${fin}`;
+                tooltip.style.display = 'block';
+            });
+            info.el.addEventListener('mousemove', e => {
+                tooltip.style.left = e.pageX + 10 + 'px';
+                tooltip.style.top = e.pageY + 10 + 'px';
+            });
+            info.el.addEventListener('mouseleave', () => tooltip.style.display = 'none');
+        },
+
+        eventClick: function(info) {
+            const e = info.event;
+            const p = e.extendedProps || {};
+
+            document.getElementById('modalCliente').textContent = p.cliente || e.title.split(' (')[0];
+            document.getElementById('modalEmail').textContent = p.email || '—';
+            document.getElementById('modalTelefono').textContent = p.telefono || '—';
+            document.getElementById('modalFecha').textContent = e.start.toLocaleDateString('es-CL');
+
+            // 👇 Horas en formato 24h
+            const horaInicio = e.start.toLocaleTimeString('es-CL', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            });
+            const horaFin = e.end
+                ? e.end.toLocaleTimeString('es-CL', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                })
+                : '';
+
+            document.getElementById('modalHorario').textContent = `${horaInicio} - ${horaFin}`;
+            document.getElementById('modalLugar').textContent = p.lugar || '—';
+            document.getElementById('modalEstado').textContent = p.estado || '—';
+            document.getElementById('modalNotas').textContent = p.notas || '—';
+
+            const lista = document.getElementById('modalProductos');
+            if (p.productos && p.productos.length > 0) {
+                lista.innerHTML = p.productos.map(x => `<li>• ${x}</li>`).join('');
+            } else {
+                lista.innerHTML = '<li>— Sin productos asociados —</li>';
+            }
+
+            const editar = document.getElementById('modalEditar');
+            if (editar) editar.href = `/booking/${e.id}/editar/`;
+
+            new bootstrap.Modal(document.getElementById('reservaModal')).show();
+        }
+    });
+
+    calendar.render();
+});
+</script>
+
+{% endblock %}
