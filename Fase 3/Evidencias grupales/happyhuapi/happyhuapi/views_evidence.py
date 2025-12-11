@@ -97,7 +97,7 @@ def actualizar_checklist(request, booking_id):
     return JsonResponse({"error": "Campo inválido"}, status=400)
 
 
-# ADMIN — VER EVIDENCIA
+# ADMIN VER EVIDENCIA
 from django.contrib.admin.views.decorators import staff_member_required
 
 @staff_member_required
