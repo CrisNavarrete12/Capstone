@@ -166,7 +166,7 @@ def evidencia_pdf(request, booking_id):
     story.append(Paragraph(f"<b>Fecha:</b> {booking.event_date}", styles["Normal"]))
     story.append(Paragraph(f"<b>Horario:</b> {booking.start_time} – {booking.end_time}", styles["Normal"]))
     story.append(Spacer(1, 15))
-=
+
 # FORMATEAR FECHAS BONITO
     def fmt(dt):
         try:
