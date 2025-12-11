@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- ESTILO SOLO PARA ESTA PÁGINA (no toca global) -->
+<style>
+    .register-bg {
+        background: url("{% static 'images/' %}") center/cover no-repeat fixed;
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 0;
+    }
+
+    .register-card {
+        width: 380px;
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        opacity: 0.97;
+    }
+
+    .register-card input {
+        border-radius: 10px !important;
+        padding: 10px !important;
+        border: 1px solid #ddd !important;
+    }
+
+    .register-btn {
+        background: linear-gradient(90deg, #ff8ad8, #c04688);
+        border: none;
+        color: white;
+        padding: 12px;
+        border-radius: 10px;
+        width: 100%;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+    .register-btn:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+    }
+
+    .register-link {
+        color: #c04688;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .register-link:hover {
+        text-decoration: underline;
+    }
+</style>
+
+
+<div class="register-bg">
+
+    <div class="register-card">
+        <h2 class="text-center mb-3" style="font-weight:700;">Crear cuenta</h2>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label>Nombre de usuario</label>
+                {{ form.username }}
+            </div>
+
+            <div class="mb-3">
+                <label>Correo electrónico</label>
+                {{ form.email }}
+            </div>
+
+            <div class="mb-3">
+                <label>Contraseña</label>
+                {{ form.password1 }}
+            </div>
+
+            <div class="mb-3">
+                <label>Confirmar contraseña</label>
+                {{ form.password2 }}
+            </div>
+
+            <button class="register-btn mt-2">Registrarse</button>
+        </form>
+
+        <p class="text-center mt-3">
+            ¿Ya tienes una cuenta?
+            <a href="{% url 'login' %}" class="register-link">Inicia sesión</a>
+        </p>
+    </div>
+
+</div>
+
+{% endblock %}

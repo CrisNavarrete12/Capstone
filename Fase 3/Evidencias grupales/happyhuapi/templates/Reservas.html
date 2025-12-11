@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+<h2 class="text-center mt-4">Reservas guardadas</h2>
+
+<div class="container mt-4">
+
+  {% if user.is_staff %}
+    <a class="btn btn-success mb-3" href="{% url 'exportar_reservas' %}">
+        Exportar reservas a Excel
+    </a>
+  {% endif %}
+
+  <table class="table table-hover table-bordered text-center">
+    <thead class="table-dark">
+      <tr>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Cliente</th>
+        <th>Lugar</th>
+        <th>Notas del Cliente</th>
+        <th>Total</th>
+        <th>Productos</th>
+        <th>Estado</th>
+
+        {% if user.is_staff %}
+            <th>Evidencia</th>
+            <th>PDF</th>
+        {% endif %}
+      </tr>
+    </thead>
+
+    <tbody>
+
+      {% for b in reservas %}
+      <tr>
+        <td>{{ b.event_date }}</td>
+        <td>{{ b.start_time }} – {{ b.end_time }}</td>
+        <td>{{ b.customer_name }}</td>
+        <td>{{ b.location|default:"-" }}</td>
+        <td>{{ b.notes|default:"—" }}</td>
+
+        <td>${{ b.total_price|floatformat:0|intcomma }} CLP</td>
+
+        <!-- BOTÓN MODAL -->
+        <td>
+          <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{ b.pk }}">
+            Ver productos
+          </button>
+        </td>
+
+        <!-- ESTADO -->
+        <td>
+          {% if user.is_staff %}
+            <form method="POST" action="{% url 'actualizar_estado' b.pk %}">
+              {% csrf_token %}
+
+              <!-- SELECT CON LÓGICA BLOQUEADA Y TRANSICIONES CORRECTAS -->
+              <select name="estado"
+                      class="form-select form-select-sm"
+                      onchange="this.form.submit()"
+                      {% if b.status == 'done' or b.status == 'cancelled' %}disabled{% endif %}>
+
+                  <!-- PENDIENTE -->
+                  <option value="pending"
+                      {% if b.status == "pending" %}selected{% endif %}
+                      {% if b.status != "pending" %}hidden{% endif %}>
+                      Pendiente
+                  </option>
+
+                  <!-- APROBADA -->
+                  <option value="approved"
+                      {% if b.status == "approved" %}selected{% endif %}
+                      {% if b.status != "pending" and b.status != "approved" %}hidden{% endif %}>
+                      Aprobada
+                  </option>
+
+                  <!-- REALIZADA -->
+                  <option value="done"
+                      {% if b.status == "done" %}selected{% endif %}
+                      {% if b.status != "approved" %}hidden{% endif %}>
+                      Realizada
+                  </option>
+
+                  <!-- CANCELADA -->
+                  <option value="cancelled"
+                      {% if b.status == "cancelled" %}selected{% endif %}
+                      {% if b.status == "done" %}hidden{% endif %}>
+                      Cancelada
+                  </option>
+
+              </select>
+
+            </form>
+
+          {% else %}
+            {% if b.status == "pending" %}
+              <span class="badge bg-warning text-dark">Pendiente</span>
+            {% elif b.status == "approved" %}
+              <span class="badge bg-success">Aprobada</span>
+            {% elif b.status == "done" %}
+              <span class="badge bg-info text-dark">Realizada</span>
+            {% else %}
+              <span class="badge bg-danger">Cancelada</span>
+            {% endif %}
+          {% endif %}
+        </td>
+
+        {% if user.is_staff %}
+        <!-- VER EVIDENCIA -->
+        <td>
+          {% if b.evidence and b.evidence.completed %}
+            <a href="{% url 'evidencia_admin' b.id %}" class="btn btn-primary btn-sm text-white">👁 Ver evidencia</a>
+          {% else %}
+            <span class="text-muted">Sin evidencia</span>
+          {% endif %}
+        </td>
+
+        <!-- PDF -->
+        <td>
+          {% if b.evidence and b.evidence.completed %}
+            <a href="{% url 'evidencia_pdf' b.id %}" class="btn btn-success btn-sm text-white">📄 PDF</a>
+          {% else %}
+            <span class="text-muted">—</span>
+          {% endif %}
+        </td>
+        {% endif %}
+      </tr>
+
+      <!--       MODAL PRODUCTOS     -->
+      <div class="modal fade" id="modal{{ b.pk }}" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <div class="modal-header bg-primary text-white">
+              <h5 class="modal-title">Productos de {{ b.customer_name }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+              {% for p in b.products.all %}
+              <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+
+                <span>
+                  • {{ p.name }} –
+                  <strong>${{ p.price|floatformat:0|intcomma }}</strong>
+                </span>
+
+                {% if user.is_staff %}
+                <button 
+                    class="btn btn-sm btn-danger eliminarProductoBtn"
+                    data-booking="{{ b.pk }}"
+                    data-product="{{ p.pk }}">
+                  🗑
+                </button>
+                {% endif %}
+
+              </div>
+              {% empty %}
+                <p class="text-muted">No hay productos en esta reserva.</p>
+              {% endfor %}
+
+            </div>
+
+            <div class="modal-footer">
+              {% if user.is_staff %}
+                <a href="{% url 'editar_reserva' b.pk %}" class="btn btn-warning text-white">
+                   ✏ Editar reserva
+                </a>
+              {% endif %}
+              <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      {% empty %}
+      <tr>
+        <td colspan="9" class="text-center text-muted">No hay reservas guardadas.</td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+  </table>
+
+<a href="{% url 'Inicio' %}" class="btn btn-secondary mt-3">← Volver al Inicio</a>
+
+</div>
+
+<!-- SCRIPT ELIMINAR PRODUCTO -->
+<script>
+document.querySelectorAll(".eliminarProductoBtn").forEach(btn => {
+  btn.addEventListener("click", async () => {
+
+    const booking = btn.dataset.booking;
+    const product = btn.dataset.product;
+
+    const url = `/booking/${booking}/producto/${product}/eliminar/`;
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.ok) {
+      btn.closest("div").remove();
+      alert("Producto eliminado de la reserva.");
+    }
+  });
+});
+</script>
+
+{% endblock %}

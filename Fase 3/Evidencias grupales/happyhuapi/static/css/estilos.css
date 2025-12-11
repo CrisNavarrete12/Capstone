@@ -1,0 +1,972 @@
+/* ============================================================ 
+    HAPPY HUAPI — BLOOM EDITION (PALETA FLORAL PASTEL)
+   ============================================================ */
+
+/* === PALETA === */
+:root {
+  --teal: #5FA7B9;
+  --sky: #CDE6F5;
+  --lavender: #A9A2CC;
+  --purple: #8C7BB1;
+  --coral: #D85C72;
+
+  --white: #ffffff;
+  --bg-soft: #F3F6FA;
+
+  --text-main: #2e2e2e;
+  --text-muted: #6d6d6d;
+
+  --radius: 18px;
+  --shadow: 0 10px 30px rgba(0,0,0,0.08);
+
+  font-family: 'Poppins', sans-serif;
+}
+
+
+/* ============================================================
+    FONDO GLOBAL
+   ============================================================ */
+
+html, body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(
+        130deg,
+        rgba(95,167,185,0.32) 0%,
+        rgba(205,230,245,0.42) 30%,
+        rgba(168,162,204,0.35) 70%,
+        rgba(216,92,114,0.30) 100%
+  );
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+
+
+/* ============================================================
+    NAVBAR BLOOM AQUA
+   ============================================================ */
+
+.hh-navbar {
+    background: var(--teal);
+    padding: 16px 0;
+    box-shadow: 0 4px 22px rgba(0,0,0,0.15);
+}
+
+.hh-logo {
+    height: 48px;
+    width: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 12px;
+}
+
+.hh-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--sky) !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.18);
+}
+
+.hh-nav-link {
+    color: #F2FBFF !important;
+    font-weight: 500;
+    margin-left: 20px;
+    transition: 0.2s ease;
+}
+
+.hh-nav-link:hover {
+    color: white !important;
+}
+
+
+
+/* ============================================================
+    HERO / CARRUSEL PRINCIPAL
+   ============================================================ */
+
+.hh-hero {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    height: 420px;        /* ← ALTURA DEL HERO */
+    margin: 70px auto 50px auto;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+}
+
+/* Carrusel interno */
+.hh-hero .carousel,
+.hh-hero .carousel-inner,
+.hh-hero .carousel-item {
+    height: 100%;
+}
+
+.hh-hero .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Overlay pastel */
+.hh-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        130deg,
+        rgba(95,167,185,0.40),
+        rgba(205,230,245,0.45),
+        rgba(168,162,204,0.45),
+        rgba(216,92,114,0.40)
+    );
+    z-index: 2;
+}
+
+/* Texto */
+.hh-hero-content {
+    position: absolute;
+    z-index: 3;
+    text-align: center;
+    color: white;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.hh-hero-title {
+    font-size: 2.7rem;
+    font-weight: 800;
+    text-shadow: 0 3px 14px rgba(0,0,0,0.45);
+}
+
+.hh-hero-subtitle {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+}
+
+
+
+/* ============================================================
+    BANNERS / PANCARTAS INFERIORES
+   ============================================================ */
+
+.hh-banner-grid {
+    max-width: 1200px;
+    margin: 50px auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.hh-banner {
+    position: relative;
+    height: 260px;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    transition: 0.3s ease;
+}
+
+.hh-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.4s ease;
+}
+
+.hh-banner:hover img {
+    transform: scale(1.08);
+    filter: brightness(75%);
+}
+
+.hh-banner-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 22px;
+}
+
+.hh-banner-content h2 {
+    color: white;
+    font-size: 1.7rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+    text-shadow: 0 3px 10px rgba(0,0,0,0.5);
+}
+
+.hh-banner-btn {
+    width: fit-content;
+    padding: 7px 18px;
+    border: 2px solid white;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    transition: 0.25s ease;
+}
+
+.hh-banner-btn:hover {
+    background: white;
+    color: black;
+}
+
+
+
+/* ============================================================
+   FOOTER AQUA BLOOM
+   ============================================================ */
+
+.hh-footer {
+    background: var(--teal);
+    padding: 28px 0;
+    margin-top: 50px;
+    text-align: center;
+    box-shadow: 0 -6px 20px rgba(0,0,0,0.08);
+}
+
+.hh-footer-text {
+    color: #FDECEF;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+}
+
+.hh-ig-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-weight: 500;
+    transition: 0.25s ease;
+}
+
+.hh-ig-icon {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.hh-ig-link:hover {
+    color: var(--coral);
+}
+
+.hh-ig-link:hover .hh-ig-icon {
+    transform: scale(1.15);
+}
+
+
+
+/* ============================================================
+    RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 768px) {
+    .hh-banner-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hh-hero {
+        height: 300px;
+    }
+
+    .hh-hero-title {
+        font-size: 2rem;
+    }
+}
+/* ============================================================
+   CATÁLOGO BLOOM EDITION — NO ROMPE LOGICA NI HTML
+   ============================================================ */
+
+/* Título general */
+.catalog-title-custom {
+    text-align: center;
+    margin-top: 40px;
+    font-weight: 800;
+    font-size: 2.2rem;
+    color: var(--purple);
+    text-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* GRID moderno */
+.catalog-grid-custom {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 26px;
+    max-width: 1300px;
+    margin: 30px auto 60px auto;
+    padding: 0 20px;
+}
+
+/* Card */
+.catalog-card-custom {
+    border: 1px solid rgba(168,162,204,0.25);
+    border-radius: 18px !important;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.14);
+    transition: 0.3s ease;
+}
+
+/* Hover elegante */
+.catalog-card-custom:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(0,0,0,0.18);
+    border-color: var(--teal);
+}
+
+/* Imagen */
+.catalog-card-custom img {
+    width: 100%;
+    height: 200px !important;
+    object-fit: cover;
+}
+
+/* Contenido */
+.catalog-body-custom {
+    padding: 16px 18px;
+}
+
+.catalog-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--teal);
+}
+
+.catalog-price {
+    font-weight: 700;
+    margin: 6px 0;
+    font-size: 1rem;
+    color: var(--coral);
+}
+
+.catalog-desc {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+}
+
+/* Botón */
+.catalog-btn-custom {
+    display: inline-block;
+    margin-top: 10px;
+    background: var(--teal);
+    color: white !important;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.25s ease;
+}
+
+.catalog-btn-custom:hover {
+    background: #4c8a9c;
+}
+
+/* Links admin */
+.catalog-admin-link {
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.catalog-admin-edit {
+    color: #198754 !important;
+}
+
+.catalog-admin-delete {
+    color: #dc3545 !important;
+}
+/* ============================================================
+   CATÁLOGO ESTILO BLOOM EDITION (PASTEL PREMIUM)
+   ============================================================ */
+
+/* TÍTULO */
+.catalog-title-custom {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 25px;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--purple);
+    text-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+
+/* Botón admin agregar */
+.catalog-admin-add {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.catalog-add-btn {
+    background-color: #198754;
+    color: white;
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* GRID GENERAL */
+.catalog-grid-custom {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 26px;
+    padding: 20px;
+    max-width: 1300px;
+    margin: auto;
+}
+
+/* TARJETA */
+.catalog-card-custom {
+    border-radius: 18px;
+    overflow: hidden;
+    background: linear-gradient(
+        145deg,
+        rgba(205,230,245,0.55),
+        rgba(168,162,204,0.35),
+        rgba(216,92,114,0.25)
+    );
+    box-shadow: 0 8px 22px rgba(0,0,0,0.12);
+    transition: 0.25s ease;
+}
+
+.catalog-card-custom:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 26px rgba(0,0,0,0.18);
+}
+
+/* Imagen */
+.catalog-card-custom img {
+    width: 100%;
+    height: 210px;
+    object-fit: cover;
+}
+
+/* CUERPO */
+.catalog-body-custom {
+    padding: 15px 18px;
+}
+
+/* Nombre producto */
+.catalog-name {
+    margin: 0;
+    font-weight: 700;
+    color: var(--purple);
+}
+
+/* Precio */
+.catalog-price {
+    color: var(--teal);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 6px 0;
+}
+
+/* Descripción */
+.catalog-desc {
+    color: #555;
+    margin-bottom: 12px;
+}
+
+/* Botón rosado Bloom */
+.catalog-btn-custom {
+    background-color: #D85C72;
+    color: white !important;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: 0.2s ease;
+}
+
+.catalog-btn-custom:hover {
+    background-color: #c44c62;
+}
+
+/* Admin links */
+.catalog-admin-box {
+    margin-top: 12px;
+}
+
+.catalog-admin-link {
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.catalog-admin-edit {
+    color: #198754;
+    margin-right: 12px;
+}
+
+.catalog-admin-delete {
+    color: #dc3545;
+}
+
+/* Cuando no hay productos */
+.catalog-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #777;
+    font-size: 1.1rem;
+}
+
+/* PAGINACIÓN */
+.catalog-pagination {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.catalog-page-btn {
+    color: var(--purple);
+    font-weight: 600;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.catalog-page-info {
+    color: #444;
+}
+
+/* ============================================================
+   CARRITO — BLOOM EDITION (MEJORADO + MÁS GRANDE)
+   ============================================================ */
+
+.cart-title {
+    font-weight: 800;
+    font-size: 2.4rem;
+    color: var(--purple);
+    text-shadow: 0 3px 12px rgba(0,0,0,0.15);
+    margin-bottom: 30px;
+}
+
+.cart-card {
+    background: white;
+    padding: 22px;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    border: none;
+    transition: 0.25s ease;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;   /* MÁGICO: envía el botón a la derecha */
+    gap: 20px;
+
+    margin-bottom: 18px;
+}
+
+
+.cart-card:hover {
+    transform: translateY(-3px);
+}
+
+/* IMAGEN — MÁS GRANDE */
+.cart-img {
+    width: 130px;                 /* antes 100px */
+    height: 130px;                /* antes 100px */
+    border-radius: 16px;
+    object-fit: cover;
+}
+
+/* Nombre del producto (más grande y nítido) */
+.cart-name {
+    font-size: 1.45rem;           /* antes 1.25rem */
+    font-weight: 700;
+    color: var(--teal);
+}
+
+/* Precio destacado */
+.cart-price {
+    color: var(--purple);
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+/* Botón eliminar (igual que tu versión, solo más espacioso) */
+.cart-delete-btn {
+    border: 2px solid #ffb8c0;
+    color: #d93654;
+    font-weight: 600;
+    padding: 8px 18px;            /* más grande */
+    border-radius: 12px;
+    transition: 0.25s ease;
+    background: white;
+}
+
+.cart-delete-btn:hover {
+    background: #d93654;
+    color: white;
+}
+
+/* Caja carrito vacío */
+.cart-empty-box {
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.10);
+}
+
+/* Resumen */
+.cart-summary {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+}
+
+.cart-summary-title {
+    font-weight: 700;
+    color: var(--purple);
+    font-size: 1.6rem;
+}
+
+/* Botón Reservar */
+.cart-reserve-btn {
+    font-size: 1.1rem;
+    padding: 14px;
+    border-radius: 12px;
+}
+
+/* Botón Coral estilo Bloom */
+.btn-coral {
+    background: var(--coral);
+    color: white;
+    padding: 12px 22px;
+    font-weight: 600;
+    border-radius: 10px;
+}
+
+.btn-coral:hover {
+    background: #c94a60;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+
+    .cart-card {
+        min-height: 130px;
+        padding: 15px;
+    }
+
+    .cart-img {
+        width: 90px;
+        height: 90px;
+    }
+
+    .cart-name {
+        font-size: 1.2rem;
+    }
+}
+/* Fondo del footer */
+.hh-footer {
+    background: #ffe6f2;
+    border-top: 2px solid #ffb6d6;
+}
+
+/* Fondo del footer */
+.hh-footer {
+    background: #ffe6f2;
+    border-top: 2px solid #ffb6d6;
+}
+
+/* LOGO PERFECTO */
+.footer-logo-perfect {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: contain;   /* NO se deforma */
+    background: white;     /* Limpio */
+    padding: 5px;
+    border: 3px solid #ffb6d6;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Texto “Síguenos en nuestras redes” */
+.footer-follow {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #c04688;
+}
+
+/* Link Instagram */
+.footer-instagram-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+}
+
+/* Icono Instagram grande */
+.footer-instagram-big {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 6px;
+    transition: 0.25s;
+}
+
+.footer-instagram-big:hover {
+    transform: scale(1.20);
+}
+
+/* Texto “Síguenos en Instagram” */
+.footer-instagram-text {
+    color: #c04688;
+    font-weight: 600;
+}
+
+/* Títulos */
+.footer-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #c04688;
+}
+
+/* Listas */
+.footer-list {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-list li {
+    margin-bottom: 6px;
+}
+
+.footer-list a {
+    color: #444;
+    text-decoration: none;
+}
+
+.footer-list a:hover {
+    color: #c04688;
+}
+
+/* Contacto */
+.footer-contact {
+    color: #333;
+}
+
+/* Copyright */
+.footer-copy {
+    font-size: 0.9rem;
+    color: #666;
+}
+.footer-instagram-center img {
+    width: 48px;
+    height: 48px;
+    transition: 0.25s;
+}
+
+.footer-instagram-center img:hover {
+    transform: scale(1.20);
+}
+
+.footer-instagram-text {
+    color: #c04688;
+    font-weight: 600;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Contenedor principal para empujar el footer abajo */
+.main-content {
+    flex: 1; /* Esto hace que empuje el footer */
+}
+/* --- CONTENEDOR DEL LOGIN --- */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh; /* centra el login verticalmente */
+}
+
+/* --- TARJETA DEL LOGIN --- */
+.login-card {
+    max-width: 450px;
+    width: 100%;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+/* --- TÍTULO --- */
+.login-title {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #b13872;
+}
+
+/* --- BOTÓN DE ENTRAR --- */
+.login-btn {
+    background: linear-gradient(90deg, #ff8ad8, #c04688);
+    border: none;
+    color: white;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+/* --- LINKS --- */
+.login-link {
+    text-decoration: none;
+    color: #c04688;
+    font-weight: 500;
+}
+
+.login-link:hover {
+    text-decoration: underline;
+}
+
+/* --- Inputs más modernos --- */
+.login-card input {
+    border-radius: 10px !important;
+    border: 1px solid #ddd !important;
+    padding: 10px !important;
+}
+
+/* --- Animación suave --- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ======== PAGINA DE RESERVAR — DISEÑO MODERNO ======== */
+
+.reserva-wrapper {
+    max-width: 900px;
+    margin: 40px auto;
+    background: rgba(255,255,255,0.9);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    backdrop-filter: blur(6px);
+}
+
+.reserva-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #b13872;
+    letter-spacing: .5px;
+    margin-bottom: 20px;
+}
+
+.reserva-sub {
+    font-size: 15px;
+    color: #444;
+    opacity: 0.8;
+    margin-bottom: 20px;
+}
+
+/* INPUTS BONITOS */
+.reserva-wrapper input,
+.reserva-wrapper select,
+.reserva-wrapper textarea {
+    border-radius: 10px !important;
+    border: 1px solid #ccc !important;
+    padding: 10px !important;
+}
+
+/* TARJETA DE RESUMEN */
+.resumen-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    margin-top: 25px;
+}
+
+/* TITULO RESUMEN */
+.resumen-title {
+    font-weight: 700;
+    color: #b13872;
+}
+
+/* BOTON PRINCIPAL */
+.reserva-btn {
+    background: linear-gradient(90deg, #4aad67, #3b8c55);
+    border: none;
+    color: white;
+    padding: 14px;
+    width: 100%;
+    font-weight: bold;
+    border-radius: 12px;
+    transition: 0.25s;
+}
+
+.reserva-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+.destacado-card {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    height: 260px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.destacado-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.destacado-info {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0,0,0,0.65), transparent);
+    color: white;
+}
+.masonry-grid {
+    column-count: 3;
+    column-gap: 15px;
+}
+
+.masonry-grid img {
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: 14px;
+    display: block;
+    break-inside: avoid;
+}
+.hh-mini-gallery .mini-img {
+    width: 220px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.10);
+    transition: 0.25s ease;
+}
+.hh-mini-gallery .mini-img:hover {
+    transform: scale(1.04);
+}
+html, body {
+    height: auto !important;
+    min-height: 100%;
+}
+
+body {
+    background: linear-gradient(180deg, #a7d3e8 0%, #f5c7d9 100%);
+    background-attachment: fixed;
+    background-size: 100% 100%;
+}

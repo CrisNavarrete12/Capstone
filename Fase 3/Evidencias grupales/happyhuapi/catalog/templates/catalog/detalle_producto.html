@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div style="max-width:800px; margin:auto; padding:20px;">
+
+  <h1 style="text-align:center; margin-bottom:20px;">{{ object.name }}</h1>
+
+  {% if object.image %}
+      <img src="{{ object.image.url }}" alt="{{ object.name }}" style="width:100%; max-width:600px; display:block; margin:auto; border-radius:10px;">
+  {% else %}
+      <img src="https://via.placeholder.com/800x500?text=Sin+Imagen" alt="Sin imagen" style="width:100%; max-width:600px; display:block; margin:auto; border-radius:10px;">
+  {% endif %}
+
+  <p style="margin-top:20px; font-size:18px; color:#555; text-align:center;">
+    {{ object.description }}
+  </p>
+
+  <div style="text-align:center; margin-top:20px;">
+    <a href="{% url 'catalog:lista' %}" style="color:#2196F3;">← Volver al catálogo</a>
+  </div>
+
+</div>
+{% endblock %}

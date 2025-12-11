@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Detalle reserva</title>
+</head>
+<body>
+  <h1>Reserva de {{ booking.customer_name }}</h1>
+  <p><strong>Fecha:</strong> {{ booking.event_date }}</p>
+  <p><strong>Horario:</strong> {{ booking.start_time }} – {{ booking.end_time }}</p>
+  <p><strong>Estado:</strong> {{ booking.get_status_display }}</p>
+  <p><strong>Lugar:</strong> {{ booking.location|default:"—" }}</p>
+  <p><strong>Notas:</strong> {{ booking.notes|default:"—" }}</p>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Happy Huapi</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+
+</head>
+
+<body class="{% block body_class %}{% endblock %}">
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'Inicio' %}">HappyHuapi</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav ms-auto">
+
+                    <!-- ENLACES PUBLICOS -->
+                    <li class="nav-item"><a class="nav-link" href="{% url 'catalog:lista' %}">Catálogo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'Reservar' %}">Reservar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'Reservas' %}">Mis Reservas</a></li>
+
+                    {% if user.is_authenticated %}
+                        
+                        <!-- CARRITO SOLO SI ESTÁ LOGUEADO -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'catalog:carrito' %}">Carrito</a>
+                        </li>
+
+                        {% if user.is_staff or user.is_superuser %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'catalog:calendario' %}">Calendario</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Administración</a></li>
+                        {% endif %}
+                        
+                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a></li>
+
+                    {% else %}
+
+                        <!-- NO LOGUEADOS -->
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'registro' %}">Registrarse</a></li>
+
+                    {% endif %}
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- CONTENIDO DE LAS PÁGINAS -->
+    <main class="container mt-4">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer-custom mt-5 text-center">
+        <div class="container">
+            <p>HappyHuapi © 2025 — Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>
