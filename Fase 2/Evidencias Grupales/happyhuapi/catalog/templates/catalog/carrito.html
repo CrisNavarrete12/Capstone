@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<h1 style="text-align:center; margin-top:20px;">Tu Canasta</h1>
+
+<div style="max-width:600px; margin:auto;">
+  {% for p in productos %}
+    <div style="padding:10px; border-bottom:1px solid #ccc;">
+      {{ p.name }} - <strong>${{ p.price }}</strong>
+    </div>
+  {% empty %}
+    <p style="text-align:center;">No has agregado productos.</p>
+  {% endfor %}
+
+  <hr>
+  <h3 style="text-align:center;">Total: ${{ total }}</h3>
+
+  <div style="text-align:center; margin-top:20px;">
+    <a href="{% url 'Reservar' %}" style="background:#28a745; color:white; padding:10px 20px; border-radius:6px; text-decoration:none;">
+      Continuar a la Reserva
+    </a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,220 @@
+/* ============================================================
+   🎨 VARIABLES Y BASE DEL DISEÑO (de calendario.css)
+   ============================================================ */
+:root {
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --accent: #29B6F6;        /* Celeste suave (nuevo estilo) */
+  --accent-2: #0277BD;      /* Celeste oscuro */
+  --shadow: 0 6px 18px rgba(20,20,40,0.08);
+  --radius: 12px;
+  --gap: 18px;
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  height: 100%;
+  margin: 0;
+  background: var(--bg);
+  color: #111827;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   ⚪ ESTILOS GENERALES (basados en catalog.css)
+   ============================================================ */
+
+h1, h2, h3 {
+  font-weight: 600;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: var(--accent-2);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Contenedores */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+  background: transparent;
+}
+
+/* Tarjetas universales */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px;
+  transition: 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(20,20,40,0.12);
+}
+
+/* Botones generales */
+.btn {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s ease;
+  text-align: center;
+}
+
+.btn-primary {
+  background: var(--accent-2);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--accent);
+}
+
+.btn-outline {
+  color: var(--accent-2);
+  border: 2px solid var(--accent-2);
+}
+
+.btn-outline:hover {
+  background: var(--accent-2);
+  color: white;
+}
+
+/* ============================================================
+   🟦 GRID y TARJETAS (del catalog.css)
+   ============================================================ */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--gap);
+}
+
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+/* ============================================================
+   📅 ELEMENTOS DE CALENDARIO (del calendario.css)
+   ============================================================ */
+
+.day {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 14px 16px;
+  transition: transform 0.1s ease;
+}
+
+.day:hover {
+  transform: translateY(-2px);
+}
+
+.day h3 {
+  margin: 0 0 10px 0;
+  color: var(--accent-2);
+  font-size: 18px;
+}
+
+.badge {
+  display: block;
+  background: rgba(33,150,243,0.1);
+  color: #0b5394;
+  border-radius: 8px;
+  padding: 6px 8px;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.free  { color: #16a34a; font-weight: 600; }
+.full  { color: #dc2626; font-weight: 600; }
+
+/* ============================================================
+   🧩 FORMULARIOS (mezcla de ambos)
+   ============================================================ */
+
+form input, form select, form textarea {
+  border-radius: 8px;
+  border: 1px solid #BBD7E2;
+  padding: 10px;
+  width: 100%;
+}
+
+form input:focus, form select:focus, form textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 6px rgba(41,182,246,0.4);
+}
+
+/* ============================================================
+   📱 RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    padding: 10px;
+  }
+}
+
+/* === NAVBAR MODERNO === */
+.navbar-custom {
+    background-color: var(--accent-2);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.navbar-custom .navbar-brand {
+    color: white !important;
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+.navbar-custom .nav-link {
+    color: white !important;
+    font-weight: 500;
+    margin-left: 10px;
+    transition: 0.3s;
+}
+
+.navbar-custom .nav-link:hover {
+    color: #BBE7FF !important;
+}
+
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+/* === FOOTER === */
+.footer-custom {
+    background-color: #004C70;
+    color: white;
+    padding: 25px 0;
+    margin-top: 40px;
+}
+
+.footer-custom p {
+    margin: 0;
+    color: #E0F4FF;
+}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h1 class="mb-4">Reservar evento</h1>
+
+    <h4>Productos en tu canasta</h4>
+
+    {% if productos %}
+        <ul>
+            {% for p in productos %}
+                <li>{{ p.name }} - <strong>${{ p.price }}</strong></li>
+            {% endfor %}
+        </ul>
+        <p><strong>Total productos:</strong> ${{ total_productos }}</p>
+    {% else %}
+        <p>No has agregado productos todavía.</p>
+    {% endif %}
+
+    <hr>
+    <p><strong>Precio por hora del servicio:</strong> $20.000 CLP</p>
+    <hr>
+
+    {% if messages %}
+        {% for m in messages %}
+            <div class="alert alert-info">{{ m }}</div>
+        {% endfor %}
+    {% endif %}
+
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <form method="post" class="mb-3">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Confirmar Reserva</button>
+    </form>
+
+    <a class="btn btn-secondary" href="{% url 'Inicio' %}">Volver al inicio</a>
+
+</div>
+
+{% endblock %}
