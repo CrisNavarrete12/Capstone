@@ -1,25 +1,140 @@
-{% load static %}
-<!doctype html>
+<!DOCTYPE html> 
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>{% block title %}Happy Huapi{% endblock %}</title>
-  <link rel="stylesheet" href="{% static 'css/catalog.css' %}">
+    <meta charset="UTF-8">
+    <title>Happy Huapi</title>
+
+    {% load static %}
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+
+    <!-- TIPOGRAFÍA estilo Nike -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- BOOTSTRAP -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+    <!-- CSS NUEVO -->
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
 </head>
-<body>
-  <header style="text-align:center; padding:10px; background:#fff; border-bottom:1px solid #ddd;">
-    <h1><a href="/">🍭 Happy Huapi</a></h1>
-  </header>
 
-  <main class="container">
-    {% block content %}{% endblock %}
-  </main>
+<body class="hh-body {% block body_class %}{% endblock %}">
 
-  <footer style="text-align:center; margin-top:20px; padding:10px; color:#888;">
-    <p>© 2025 Happy Huapi</p>
-  </footer>
-<link rel="stylesheet" href="{% static 'css/catalog.css' %}">
+    <!-- NAVBAR Nike -->
+    <nav class="navbar navbar-expand-lg hh-navbar shadow-sm">
+        <div class="container">
 
+            <!-- LOGO + NOMBRE -->
+            <a class="navbar-brand d-flex align-items-center hh-brand" href="{% url 'Inicio' %}">
+                <img class="hh-logo" src="{% static 'images/icono.jpg' %}" alt="Happy Huapi Logo">
+                <span class="hh-title">HappyHuapi</span>
+            </a>
+
+            <!-- BOTÓN RESPONSIVE -->
+            <button class="navbar-toggler hh-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- MENÚ -->
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav ms-auto hh-nav-list">
+
+                    <!-- PÚBLICO -->
+                    <li class="nav-item"><a class="nav-link hh-nav-link" href="{% url 'catalog:lista' %}">Catálogo</a></li>
+                    <li class="nav-item"><a class="nav-link hh-nav-link" href="{% url 'Reservar' %}">Reservar</a></li>
+
+                    <!-- CLIENTES LOGUEADOS -->
+                    {% if user.is_authenticated and not user.is_staff %}
+                        <li class="nav-item"><a class="nav-link hh-nav-link" href="{% url 'Reservas' %}">Mis Reservas</a></li>
+                    {% endif %}
+
+                    <!-- STAFF -->
+                    {% if user.is_authenticated and user.is_staff %}
+                        <li class="nav-item"><a class="nav-link hh-nav-link" href="{% url 'catalog:calendario' %}">Calendario</a></li>
+                        <li class="nav-item"><a class="nav-link hh-nav-link" href="{% url 'Reservas' %}">Administración</a></li>
+                    {% endif %}
+
+                    {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link hh-nav-link" href="{% url 'catalog:carrito' %}">Carrito</a></li>
+                        <li class="nav-item"><a class="nav-link hh-nav-link" href="{% url 'logout' %}">Cerrar sesión</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link hh-nav-link" href="{% url 'login' %}">Iniciar sesión</a></li>
+                        <li class="nav-item"><a class="nav-link hh-nav-link" href="{% url 'registro' %}">Registrarse</a></li>
+                    {% endif %}
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO ENVUELTO PARA QUE EMPUJE EL FOOTER -->
+    <div class="main-content">
+        <main class="container hh-main">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="hh-footer mt-5 py-5">
+        <div class="container">
+
+            <div class="row align-items-start">
+
+                <!-- LOGO IZQUIERDA -->
+                <div class="col-md-3 text-center mb-4">
+                    <img src="{% static 'images/icono.jpg' %}" alt="HappyHuapi Logo" class="footer-logo-perfect">
+                </div>
+
+                <!-- SOBRE NOSOTROS -->
+                <div class="col-md-3 mb-4 text-center">
+                    <h5 class="footer-title">SOBRE NOSOTROS</h5>
+                    <ul class="footer-list">
+                        <li><a href="{% url 'Inicio' %}">Inicio</a></li>
+                        <li><a href="{% url 'sobre_nosotros' %}">Sobre Happy Huapi</a></li>
+                        <li><a href="{% url 'Catalogo' %}">Catálogo</a></li>
+                        <li><a href="{% url 'Reservar' %}">Reservas</a></li>
+                        <li><a href="{% url 'Contacto' %}">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <!-- SERVICIOS -->
+                <div class="col-md-3 mb-4 text-center">
+                    <h5 class="footer-title">SERVICIOS</h5>
+                    <ul class="footer-list">
+                        <li>Arriendo de Candy Bar</li>
+                        <li>Decoración de Eventos</li>
+                        <li>Animación y Entretenimiento</li>
+                        <li>Producción de Cumpleaños</li>
+                        <li>Personalización de Temáticas</li>
+                    </ul>
+                </div>
+
+                <!-- CONTACTO -->
+                <div class="col-md-3 mb-4 text-center">
+                    <h5 class="footer-title">CONTACTO</h5>
+                    <p class="footer-contact">📍 Pudahuel, Santiago – Chile</p>
+                    <p class="footer-contact">📞 +56 9 4540 0843</p>
+                    <p class="footer-contact">📧 happyhuapi4@gmail.com</p>
+                </div>
+
+            </div>
+
+            <!-- INSTAGRAM CENTRADO -->
+            <div class="footer-instagram-center text-center mt-4">
+                <a href="https://www.instagram.com/happyhuapi/" target="_blank" class="footer-instagram-link">
+                    <img src="{% static 'images/instagram_logo.png' %}" alt="Instagram" class="footer-instagram-big">
+                    <p class="footer-instagram-text mt-2">Síguenos en Instagram</p>
+                </a>
+            </div>
+
+            <!-- COPYRIGHT -->
+            <div class="text-center mt-4 footer-copy">
+                HappyHuapi © 2025 — Todos los derechos reservados
+            </div>
+
+        </div>
+    </footer>
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 </body>
 </html>

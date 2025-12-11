@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Crear cuenta | Happy Huapi</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+
+<h1>Crear cuenta</h1>
+
+{% if form.errors %}
+  <div style="color:red; margin-bottom:10px;">
+    {{ form.errors }}
+  </div>
+{% endif %}
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Registrarme</button>
+</form>
+
+<p>¿Ya tienes cuenta? <a href="{% url 'login' %}">Iniciar sesión</a></p>
+
+</body>
+</html>

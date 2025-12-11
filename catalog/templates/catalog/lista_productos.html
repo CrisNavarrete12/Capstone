@@ -1,49 +1,87 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
 {% load static %}
 
 {% block content %}
-<h1 style="text-align:center; margin-top:20px;">Catálogo de Productos</h1>
+
+<h1 class="catalog-title-custom">
+  Catálogo de Productos
+</h1>
 
 {% if user.is_staff %}
-<div style="text-align:center; margin-bottom:20px;">
-  <a href="{% url 'catalog:agregar' %}" style="background-color:#4CAF50; color:white; padding:10px 20px; border-radius:5px; text-decoration:none;">
-     Agregar producto
+<div class="catalog-admin-add">
+  <a href="{% url 'catalog:crear' %}" class="catalog-add-btn">
+     ➕ Agregar producto
   </a>
 </div>
 {% endif %}
 
-<div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:20px; padding:20px;">
+<!-- CONTENEDOR GENERAL -->
+<div class="catalog-grid-custom">
+
   {% for producto in productos %}
-    <div style="border:1px solid #ccc; border-radius:10px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1); background:white;">
-      <a href="{% url 'catalog:detalle' producto.pk %}">
-        <img src="{{ producto.image.url }}" alt="{{ producto.name }}" style="width:100%; height:200px; object-fit:cover;">
+
+    <div class="catalog-card-custom">
+
+      <a href="{% url 'catalog:detalle' producto.pk %}" class="catalog-img-link">
+        {% if producto.image %}
+          <img src="{{ producto.image.url }}" alt="{{ producto.name }}">
+        {% else %}
+          <img src="https://via.placeholder.com/400x200?text=Sin+Imagen" alt="Sin imagen">
+        {% endif %}
       </a>
-      <div style="padding:15px;">
-        <h3 style="margin:0;">{{ producto.name }}</h3>
-        <p style="color:#666;">{{ producto.description|truncatechars:100 }}</p>
-        
+
+      <div class="catalog-body-custom">
+
+        <h3 class="catalog-name">{{ producto.name }}</h3>
+
+        <p class="catalog-price">${{ producto.price }}</p>
+
+        <p class="catalog-desc">{{ producto.description|truncatechars:100 }}</p>
+
+        <a href="{% url 'catalog:agregar_carrito' producto.pk %}" class="catalog-btn-custom">
+          🛒 Agregar a Canasta
+        </a>
+
         {% if user.is_staff %}
-          <div style="margin-top:10px;">
-            <a href="{% url 'catalog:editar' producto.pk %}" style="margin-right:10px; color:#2196F3;">✏️ Editar</a>
-            <a href="{% url 'catalog:eliminar' producto.pk %}" style="color:#E53935;">🗑️ Eliminar</a>
+          <div class="catalog-admin-box">
+            <a href="{% url 'catalog:editar' producto.pk %}" class="catalog-admin-link catalog-admin-edit">
+              ✏️ Editar
+            </a>
+
+            <a href="{% url 'catalog:eliminar' producto.pk %}" class="catalog-admin-link catalog-admin-delete">
+              🗑️ Eliminar
+            </a>
           </div>
         {% endif %}
+
       </div>
+
     </div>
+
   {% empty %}
-    <p style="grid-column:1 / -1; text-align:center;">No hay productos disponibles.</p>
+    <p class="catalog-empty">No hay productos disponibles.</p>
   {% endfor %}
+
 </div>
 
 {% if is_paginated %}
-<div style="text-align:center; margin:20px;">
+<div class="catalog-pagination">
   {% if page_obj.has_previous %}
-    <a href="?page={{ page_obj.previous_page_number }}">« Anterior</a>
+    <a href="?page={{ page_obj.previous_page_number }}" class="catalog-page-btn">
+      « Anterior
+    </a>
   {% endif %}
-  <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+
+  <span class="catalog-page-info">
+    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+  </span>
+
   {% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}">Siguiente »</a>
+    <a href="?page={{ page_obj.next_page_number }}" class="catalog-page-btn">
+      Siguiente »
+    </a>
   {% endif %}
 </div>
 {% endif %}
+
 {% endblock %}

@@ -1,91 +1,106 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Huapi · Candy Bar & Decoración</title>
-    {% load static %}
-    <link href="{% static 'css/estilos.css' %}" rel="stylesheet">
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-</head>
-<body>
-    <nav class="navbar navbar-expand-sm bg-color navbar-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#opciones">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="opciones">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'Inicio' %}">Inicio</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'Catalogo' %}">Catálogo</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'Reservar' %}">Crear reserva</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+{% extends "base.html" %}
+{% load static %}
 
-    <br><br>
-    
-    <main role="main" class="container">
-        <div class="container-fluid"><!-- Carrusel -->
-            <div id="carousel1" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carousel1" data-slide-to="0" class="active"></li>
-                    <li data-target="#carousel1" data-slide-to="1"></li>
-                    <li data-target="#carousel1" data-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner" style="border-radius: 60px;">
-                    <div class="carousel-item active">
-                        <img class="d-block w-100" src="{% static 'images/images.jpg' %}" alt="">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-100" src="{% static 'images/mesa-dulce-novios-blanca.jpeg' %}" alt="">
+{% block content %}
+
+<!--  CARRUSEL PRINCIPAL -->
+
+<div id="heroCarousel" class="carousel slide hh-hero" data-bs-ride="carousel">
+
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{% static 'images/Oso Rosado.jpeg' %}" class="d-block w-100" alt="">
+        </div>
+
+        <div class="carousel-item">
+            <img src="{% static 'images/Hot Wheels.jpeg' %}" class="d-block w-100" alt="">
+        </div>
+
+        <div class="carousel-item">
+            <img src="{% static 'images/Unicornio.jpeg' %}" class="d-block w-100" alt="">
+        </div>
+    </div>
+
+    <div class="hh-hero-overlay"></div>
+
+    <div class="hh-hero-content">
+        <h1 class="hh-hero-title">Estilos</h1>
+        <p class="hh-hero-subtitle">Creamos celebraciones únicas</p>
+    </div>
+
+</div>
+
+
+
+<!-- PANCARTAS / SERVICIOS -->
+
+<section class="hh-banner-grid">
+
+    <div class="hh-banner">
+        <img src="{% static 'images/Escolar 1.jpeg' %}" alt="">
+        <div class="hh-banner-content">
+            <h2>Decoración Infantil</h2>
+            <a class="hh-banner-btn" href="{% url 'catalog:lista' %}">Ver más</a>
+        </div>
+    </div>
+
+    <div class="hh-banner">
+        <img src="{% static 'images/My little pony.jpeg' %}" alt="">
+        <div class="hh-banner-content">
+            <h2>Mesas Dulces</h2>
+            <a class="hh-banner-btn" href="{% url 'catalog:lista' %}">Ver más</a>
+        </div>
+    </div>
+
+    <div class="hh-banner">
+        <img src="{% static 'images/Globos.jpeg' %}" alt="">
+        <div class="hh-banner-content">
+            <h2>Globos & Flores</h2>
+            <a class="hh-banner-btn" href="{% url 'catalog:lista' %}">Ver más</a>
+        </div>
+    </div>
+
+</section>
+<!-- PANCARTAS / SERVICIOS -->
+<section class="hh-destacados py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Destacados del Mes</h2>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="destacado-card">
+                    <img src="{% static 'images/ceremonia.jpg' %}">
+                    <div class="destacado-info">
+                        <h3>Decoración Premium</h3>
+                        <p>Montajes únicos para eventos especiales</p>
                     </div>
                 </div>
-                <a class="carousel-control-prev" href="#carousel1" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carousel1" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">next</span>
-                </a>
             </div>
-        </div>
-    </main>
 
-    <br><br><br>
-    <footer>
-        <div class="row col-12">
-            <div class="col-lg-1">
-                <a href="{% url 'Inicio' %}" id="linkFooter"><strong>INICIO</strong></a>
-            </div>
-            <div class="col-lg-1">
-                <a href="{% url 'Catalogo' %}" id="linkFooter"><strong>Organización</strong></a>
-            </div>
-            <div class="col-lg-2">
-                <a href="{% url 'Reservas' %}" id="linkFooter"><strong>Reservas</strong></a>
-            </div>
-            <div class="col-lg-2">
-                <strong>Síguenos en :</strong>
-                <br><br>
-                <div class="row">
-                    <img src="{% static 'images/Facebook.png' %}" alt="" width="30px" height="30px" style="margin-left: 15px;">
+            <div class="col-md-6">
+                <div class="destacado-card">
+                    <img src="{% static 'images/Snoopy2.jpeg' %}">
+                    <div class="destacado-info">
+                        <h3>Paquete Deluxe</h3>
+                        <p>Diseños personalizados para celebraciones</p>
+                    </div>
                 </div>
-                <br><br><br>
-                <p>&copy; @copyright Derechos reservados</p>
             </div>
         </div>
-    </footer>
+    </div>
+</section>
+<!-- PANCARTAS / SERVICIOS -->
+<section class="hh-masonry py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Inspiraciones</h2>
+        <div class="masonry-grid">
+            <img src="{% static 'images/Spiderman.jpg' %}">
+            <img src="{% static 'images/Unicornio.jpeg' %}">
+            <img src="{% static 'images/Hot Wheels.jpeg' %}">
+            <img src="{% static 'images/Snoopy2.jpeg' %}">
+            <img src="{% static 'images/Brawl Stars 4.jpeg' %}">
+        </div>
+    </div>
+</section>
 
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-</body>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
-</html>
+
+{% endblock %}

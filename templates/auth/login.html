@@ -1,33 +1,50 @@
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Login | Happy Huapi</title>
+{% extends "base.html" %}
+{% load static %}
 
-  {% load static %}
-  <link rel="stylesheet" href="{% static 'css/login.css' %}">
-</head>
-<body>
-  <h1>Iniciar sesión</h1>
+{% block content %}
 
-  {% if form.non_field_errors %}
-    <p class="error">{{ form.non_field_errors }}</p>
-  {% endif %}
+<div class="login-container">
+    <div class="login-card">
 
-  <form method="post">
-    {% csrf_token %}
-    <p>
-      <label for="{{ form.username.id_for_label }}">Usuario:</label>
-      {{ form.username }}
-    </p>
-    <p>
-      <label for="{{ form.password.id_for_label }}">Contraseña:</label>
-      {{ form.password }}
-    </p>
-    <button type="submit">Entrar</button>
-  </form>
+        <h2 class="login-title">Iniciar sesión</h2>
 
-  <p><a href="{% url 'Inicio' %}">Volver al inicio</a></p>
-</body>
-</html>
+        {% if form.errors %}
+            <div class="alert alert-danger text-center">
+                Usuario o contraseña incorrectos.
+            </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Usuario</label>
+                {{ form.username }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Contraseña</label>
+                {{ form.password }}
+            </div>
+
+            <button type="submit" class="login-btn w-100">
+                Entrar
+            </button>
+        </form>
+
+        <div class="text-center mt-3">
+            <a href="{% url 'password_reset' %}" class="login-link">
+                ¿Olvidaste tu contraseña?
+            </a>
+        </div>
+
+        <div class="text-center mt-2">
+            <a href="{% url 'registro' %}" class="login-link">
+                ¿No tienes cuenta? Regístrate aquí
+            </a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

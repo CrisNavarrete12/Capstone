@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div style="max-width: 700px; margin: 40px auto; padding: 25px; background: white;
+            border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+
+    <div style="text-align: center; margin-bottom: 20px;">
+        <img src="https://cdn-icons-png.flaticon.com/512/463/463612.png"
+             style="width: 90px; margin-bottom: 10px;">
+        <h2 style="font-weight: 700; color: #dc3545;">¡Pago no completado!</h2>
+        <p style="font-size: 16px; color: #555;">Hubo un problema al procesar tu pago.</p>
+    </div>
+
+    <hr>
+
+    <p style="font-size: 16px; margin-top: 20px;">
+        Puede que hayas cancelado el pago o que WebPay no lo haya autorizado.
+        Tu reserva <strong>NO fue registrada</strong>.  
+    </p>
+
+    <p style="font-size: 16px;">
+        Si crees que es un error, intenta nuevamente.
+    </p>
+
+    <div style="text-align:center; margin-top: 30px;">
+        <a href="{% url 'Reservar' %}"
+           style="background:#0d6efd; color:white; padding:12px 25px; border-radius:8px;
+                  text-decoration:none; margin-right:10px; font-weight:600;">
+            Reintentar reserva
+        </a>
+
+        <a href="{% url 'Inicio' %}"
+           style="background:#6c757d; color:white; padding:12px 25px; border-radius:8px;
+                  text-decoration:none; font-weight:600;">
+            Volver al inicio
+        </a>
+    </div>
+
+</div>
+{% endblock %}

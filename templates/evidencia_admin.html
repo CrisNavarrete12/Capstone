@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .card-box {
+        background: #fff;
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        border-left: 6px solid #0d6efd;
+    }
+
+    h2.title-main {
+        font-weight: 800;
+        font-size: 30px;
+        text-align: center;
+        margin-bottom: 35px;
+    }
+
+    .title-section {
+        font-weight: 700;
+        font-size: 20px;
+        margin-bottom: 10px;
+        color: #0d6efd;
+    }
+
+    .tag-ok {
+        background: #198754;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .tag-bad {
+        background: #dc3545;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .gallery-img {
+        width: 190px;
+        height: 190px;
+        object-fit: cover;
+        border-radius: 12px;
+        margin: 10px;
+        border: 2px solid #eee;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.12);
+    }
+
+    ul.checklist li {
+        margin-bottom: 12px;
+        font-size: 17px;
+    }
+</style>
+
+<div class="container">
+
+    <h2 class="title-main">📋 Evidencia del Evento</h2>
+
+    <!-- ESTADO FINAL -->
+    <div class="card-box">
+        <h4 class="title-section">📘 Estado de la Evidencia</h4>
+
+        {% if evidencia.completed %}
+            <p>
+                <strong>Estado:</strong>
+                <span class="tag-ok">✔ Finalizada</span>
+            </p>
+            <p>
+                <strong>Fecha de finalización:</strong>
+                {{ evidencia.completed_at }}
+            </p>
+        {% else %}
+            <p>
+                <strong>Estado:</strong>
+                <span class="tag-bad">✘ No finalizada</span>
+            </p>
+        {% endif %}
+    </div>
+
+    <!-- EVENTO -->
+    <div class="card-box">
+        <h4 class="title-section">📌 Información del Evento</h4>
+
+        <p><strong>Cliente:</strong> {{ booking.customer_name }}</p>
+        <p><strong>Fecha:</strong> {{ booking.event_date }}</p>
+        <p><strong>Horario:</strong> {{ booking.start_time }} – {{ booking.end_time }}</p>
+        <p><strong>Lugar:</strong> {{ booking.location|default:"—" }}</p>
+        <p><strong>Notas del cliente:</strong> {{ booking.notes|default:"—" }}</p>
+    </div>
+
+    <!-- HORARIOS -->
+    <div class="card-box">
+        <h4 class="title-section">⏱ Registro de Horarios</h4>
+
+        <p>
+            <strong>Llegada:</strong>
+            {% if evidencia.arrival_time %}
+                <span class="tag-ok">✔ {{ evidencia.arrival_time }}</span>
+            {% else %}
+                <span class="tag-bad">✘ No registrado</span>
+            {% endif %}
+        </p>
+
+        <p>
+            <strong>Salida:</strong>
+            {% if evidencia.finish_time %}
+                <span class="tag-ok">✔ {{ evidencia.finish_time }}</span>
+            {% else %}
+                <span class="tag-bad">✘ No registrado</span>
+            {% endif %}
+        </p>
+    </div>
+
+    <!-- CHECKLIST -->
+    <div class="card-box">
+        <h4 class="title-section">☑ Checklist del Montaje</h4>
+
+        <ul class="checklist">
+
+            <li>
+                Mesa instalada:
+                {% if evidencia.table_installed %}
+                    <span class="tag-ok">✔ Sí</span>
+                {% else %}
+                    <span class="tag-bad">✘ No</span>
+                {% endif %}
+            </li>
+
+            <li>
+                Decoración lista:
+                {% if evidencia.decoration_ready %}
+                    <span class="tag-ok">✔ Sí</span>
+                {% else %}
+                    <span class="tag-bad">✘ No</span>
+                {% endif %}
+            </li>
+
+            <li>
+                Globos inflados:
+                {% if evidencia.balloons_ready %}
+                    <span class="tag-ok">✔ Sí</span>
+                {% else %}
+                    <span class="tag-bad">✘ No</span>
+                {% endif %}
+            </li>
+
+            <li>
+                Candy listo:
+                {% if evidencia.candy_ready %}
+                    <span class="tag-ok">✔ Sí</span>
+                {% else %}
+                    <span class="tag-bad">✘ No</span>
+                {% endif %}
+            </li>
+
+            <li>
+                <strong>Notas del trabajador:</strong><br>
+
+                <textarea class="form-control" rows="3" readonly 
+                        style="background:#f8f9fa; cursor:not-allowed; border:1px solid #ddd;">
+                    {{ evidencia.notes|default:"Sin notas" }}
+                </textarea>
+
+            </li>
+
+
+        </ul>
+    </div>
+
+    <!-- FOTOS -->
+    <div class="card-box">
+        <h4 class="title-section">📸 Fotos del Montaje</h4>
+
+        {% if photos %}
+            <div class="d-flex flex-wrap justify-content-start">
+                {% for p in photos %}
+                    <img src="{{ p.image.url }}" class="gallery-img">
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-muted">Aún no se han subido fotos.</p>
+        {% endif %}
+    </div>
+
+    <div class="text-center mt-4 mb-5">
+        <a href="{% url 'Reservas' %}" class="btn btn-primary px-4 py-2 rounded">
+            ⬅ Volver al Panel de Administración
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}

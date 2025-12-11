@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+<div style="max-width: 700px; margin: 40px auto; padding: 25px; background: white;
+            border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+
+    <!--  ENCABEZADO -->
+    <div style="text-align: center; margin-bottom: 20px;">
+        <img src="https://cdn-icons-png.flaticon.com/512/845/845646.png"
+             style="width: 90px; margin-bottom: 10px;">
+        <h2 style="font-weight: 700; color: #198754;">¡Pago realizado con éxito!</h2>
+        <p style="font-size: 16px; color: #555;">
+            Tu reserva fue confirmada automáticamente.
+        </p>
+    </div>
+
+    <hr>
+
+    <!-- DETALLES DE LA RESERVA -->
+    <h4 style="margin-top: 20px; font-weight: 600;">Detalles de la Reserva</h4>
+
+    <div style="margin-top: 15px; font-size: 16px; line-height: 28px;">
+
+        <p><strong>Nombre:</strong> {{ booking.customer_name }}</p>
+        <p><strong>Email:</strong> {{ booking.customer_email }}</p>
+        <p><strong>Teléfono:</strong> {{ booking.customer_phone|default:"-" }}</p>
+        <p><strong>Fecha del evento:</strong> {{ booking.event_date }}</p>
+        <p><strong>Horario:</strong> {{ booking.start_time }} – {{ booking.end_time }}</p>
+        <p><strong>Lugar:</strong> {{ booking.location|default:"—" }}</p>
+        <p><strong>Notas del cliente:</strong> {{ booking.notes|default:"—" }}</p>
+
+        <hr>
+
+        <!-- PRODUCTOS -->
+        <h5 style="margin-top: 10px; font-weight: 600;">Productos seleccionados</h5>
+
+        {% for p in booking.products.all %}
+            <p>• {{ p.name }} — ${{ p.price|intcomma }}</p>
+        {% empty %}
+            <p class="text-muted">Sin productos asociados.</p>
+        {% endfor %}
+
+        <hr>
+
+        <!-- DETALLES DE PAGO -->
+        <p><strong>Total del evento:</strong>
+            <span style="color:#0d6efd; font-weight:bold;">
+                ${{ booking.total_price|intcomma }}
+            </span>
+        </p>
+
+        <p><strong>Monto pagado (30%):</strong>
+            <span style="color:#198754; font-weight:bold;">
+                ${{ booking.deposit_amount|intcomma }}
+            </span>
+        </p>
+
+        <p><strong>Saldo pendiente (70%):</strong>
+            <span style="color:#dc3545; font-weight:bold;">
+                ${{ saldo_restante|intcomma }}
+            </span>
+        </p>
+
+        <p><strong>Fecha de pago:</strong> {{ booking.payment_date }}</p>
+    </div>
+
+    <hr style="margin: 25px 0;">
+
+
+<!-- SECCIÓN QR -->
+
+<div style="text-align:center; margin-top: 30px;">
+    <h4 style="font-weight: 600; margin-bottom: 15px;">Código QR para el día del evento</h4>
+    <p style="color:#555; font-size:15px; max-width:500px; margin:auto;">
+        Guarda este código. El trabajador lo escaneará el día del montaje para registrar la asistencia y evidencias del evento.
+    </p>
+
+    <div style="margin-top: 20px;">
+        {% if qr_base64 %}
+            <!-- SI EXISTE QR: Mostrar imagen -->
+            <img src="data:image/png;base64,{{ qr_base64 }}" alt="Código QR"
+                style="width:220px; height:220px; padding:10px; border-radius:12px;
+                        border:2px solid #eee; background:white;">
+        {% else %}
+            <!-- SI NO EXISTE QR: Mostrar mensaje amigable -->
+            <p style="color:green; font-weight:600;">
+                ✔ El código QR ha sido enviado a su correo electrónico.
+            </p>
+        {% endif %}
+    </div>
+
+    {% if qr_base64 %}
+    <p style="margin-top:15px; font-size:14px; color:#888;">
+        Link directo: 
+        <a href="https://{{ request.get_host }}/evidencia/{{ booking.id }}/qr/"
+           style="color:#0d6efd;">
+            https://{{ request.get_host }}/evidencia/{{ booking.id }}/qr/
+        </a>
+    </p>
+    {% endif %}
+</div>
+
+
+
+    <!--  BOTONES DE ACCIÓN -->
+    <div style="text-align:center; margin-top: 35px;">
+        <a href="{% url 'Inicio' %}"
+           style="background:#0d6efd; color:white; padding:12px 25px; border-radius:8px;
+                  text-decoration:none; margin-right:10px; font-weight:600;">
+            Volver al inicio
+        </a>
+
+        <a href="{% url 'Reservas' %}"
+           style="background:#198754; color:white; padding:12px 25px; border-radius:8px;
+                  text-decoration:none; font-weight:600;">
+            Ver mis reservas
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}
