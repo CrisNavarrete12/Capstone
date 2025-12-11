@@ -13,7 +13,7 @@ def es_trabajador(user):
     return user.is_authenticated and user.groups.filter(name="Trabajador").exists()
 
 
-# VISTA PRINCIPAL QR (TRABAJADOR)
+# VISTA PRINCIPAL QR  (TRABAJADOR)
 @login_required
 def evidencia_qr_view(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
